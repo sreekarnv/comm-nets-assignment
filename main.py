@@ -2,8 +2,8 @@ from string import ascii_uppercase
 
 alphabet: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-KEY_1 = "KEYA"
-KEY_2 = "KEYB"
+KEY_1 = "KEYABLO"
+KEY_2 = "KEYCDPE"
 
 
 def decrypt(ciphertext: str) -> str:
@@ -55,22 +55,27 @@ def display_disclaimer():
 
 def create_playfair_table(key: str):
     """
-    Create a 5x5 Playfair table from the given key.
+    Create a 5x5 Playfair table from the given key
+    but with the letters and replace letter J with I
     """
-    # Create a 5x5 table
+    # 5 by 5 table
     table = [[None for _ in range(5)] for _ in range(5)]
 
-    # Fill the table with the key
-    for i in range(len(key)):
-        table[i // 5][i % 5] = key[i]
+    alphas = alphabet
+
+    # remove letters from keys in alphas
+    for c in key:
+        alphas = alphas.replace(c, "")
+
+    # Remove the J from the alphabet
+    alphas = alphas.replace("J", "")
+
+    # concat key and alphas
+    key_alphas = key + alphas
 
     # Fill the rest of the table with the alphabet
-    for i in range(len(key), 25):
-        # check for I and J in key and combine into single IJ letter
-        if i < 9:
-            table[i // 5][i % 5] = alphabet[i]
-        else:
-            table[i // 5][i % 5] = alphabet[i + 1]
+    for i in range(0, 25):
+        table[i // 5][i % 5] = key_alphas[i]
 
     return table
 
