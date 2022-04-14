@@ -39,6 +39,7 @@ def decrypt(ciphertext: str) -> str:
                 decrypted_message += table_one[row_one][col_two]
                 decrypted_message += table_two[row_two][col_one]
 
+        # If the letters are in different rows and columns
         if decrypted_message[-1] == "Z":
             decrypted_message = decrypted_message[:-1]
 
@@ -150,6 +151,9 @@ def main():
     # Get user input for the message to be encrypted
     print("Please enter the message without any duplicate characters: ")
     message = input("Enter the message to be encrypted: ")
+
+    # Change 'J' to 'I'
+    message = message.replace("J", "I")
 
     # Remove repeated characters
     message = "".join(dict.fromkeys(message))
