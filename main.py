@@ -1,4 +1,5 @@
 from string import ascii_uppercase
+import sys
 
 alphabet: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -49,7 +50,7 @@ def decrypt(ciphertext: str) -> str:
 def display_disclaimer():
     print("\nTWO SQUARE CHECKERBOARD ENCODING\n")
     print("Please note that white space, numbers and will be ignored ")
-    print("and removed during the encryption process and data")
+    print("and removed during the encryption or decryption process and data")
     print("related to these will not be restored")
     print("\n\n")
 
@@ -143,15 +144,7 @@ def encrypt(plaintext: str) -> str:
     return encrypted_message
 
 
-def main():
-
-    # display disclaimer
-    display_disclaimer()
-
-    # Get user input for the message to be encrypted
-    print("Please enter the message without any duplicate characters: ")
-    message = input("Enter the message to be encrypted: ")
-
+def cleaned_message(message: str):
     # Change 'J' to 'I'
     message = message.replace("J", "I")
 
@@ -167,16 +160,33 @@ def main():
     # Remove whitespaces
     message = "".join(filter(lambda x: x.isspace() is False, message))
 
-    print("Your Original Message: ", message)
+    return message
 
-    encrypted_message = encrypt(message)
 
-    print("Your Encrypted Message", encrypted_message)
+def main(arg: str):
 
-    decrypted_message = decrypt(encrypted_message)
+    # display disclaimer
+    display_disclaimer()
 
-    print("Your Decrypted Message: ", decrypted_message)
+    # Get user input for the message to be encrypted
+    print("Please enter the message without any duplicate characters: ")
+
+    if arg == "--decrypt":
+        message = input("Enter the message to be decrypted: ")
+        message = cleaned_message(message)
+        print("Your Encrypted Message: ", message)
+        decrypted_message = decrypt(message)
+        print("Your Decrypted Message: ", decrypted_message)
+
+    else:
+        message = input("Enter the message to be encrypted: ")
+        message = cleaned_message(message)
+        print("Your Original Message: ", message)
+        encrypted_message = encrypt(message)
+        print("Your Encrypted Message", encrypted_message)
 
 
 if __name__ == "__main__":
-    main()
+    arg = sys.argv[1]
+    print(arg)
+    main(arg)
